@@ -10,8 +10,8 @@ Proyek Kotlin Multiplatform (KMP) ini berhasil dijalankan pada dua platform (Des
 
 ### 1. Platform Desktop
 
-![Tampilan Desktop](D:\Praktikum-PAM-RA\PRAKTIKUM1_124140024\desktop.png)
+![Tampilan Desktop](desktop.png)
 
 ### 2. Platform Android
 
-![Tampilan Android](D:\Praktikum-PAM-RA\PRAKTIKUM1_124140024\android.png)
+![Tampilan Android](android.png)
