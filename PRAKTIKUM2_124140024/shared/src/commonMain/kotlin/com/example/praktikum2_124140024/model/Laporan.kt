@@ -4,6 +4,7 @@ sealed class StatusLaporan {
     data object Baru : StatusLaporan()
     data object Diproses : StatusLaporan()
     data object Selesai : StatusLaporan()
+    data class Ditolak(val alasan: String) : StatusLaporan()
 }
 
 data class Laporan(
@@ -18,6 +19,7 @@ fun StatusLaporan.label(): String = when (this) {
     StatusLaporan.Baru -> "Baru"
     StatusLaporan.Diproses -> "Diproses"
     StatusLaporan.Selesai -> "Selesai"
+    is StatusLaporan.Ditolak -> "Ditolak: $alasan"
 }
 
 fun Laporan.ringkas(): String {
