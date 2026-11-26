@@ -14,7 +14,8 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
-            MyProfileApp()
+            // MyProfileApp()
+            App()
         }
     }
 }
