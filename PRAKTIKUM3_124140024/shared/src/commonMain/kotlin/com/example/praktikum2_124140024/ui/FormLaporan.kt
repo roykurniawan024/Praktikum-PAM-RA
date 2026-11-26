@@ -15,32 +15,44 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
 @Composable
+fun KolomTeks(
+    label: String,
+    nilai: String,
+    onNilaiBerubah: (String) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    OutlinedTextField(
+        value = nilai,
+        onValueChange = onNilaiBerubah,
+        label = { Text(label) },
+        modifier = modifier.fillMaxWidth()
+    )
+}
+
+@Composable
 fun FormLaporan() {
-    val judul = rememberSaveable { mutableStateOf("") }
+    var judul by rememberSaveable { mutableStateOf("") }
     var lokasi by rememberSaveable { mutableStateOf("") }
-    val (deskripsi, setDeskripsi) = rememberSaveable { mutableStateOf("") }
+    var deskripsi by rememberSaveable { mutableStateOf("") }
 
     Column(
         modifier = Modifier.padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
-        OutlinedTextField(
-            value = judul.value,
-            onValueChange = { judul.value = it },
-            label = { Text("Judul Laporan") },
-            modifier = Modifier.fillMaxWidth()
+        KolomTeks(
+            label = "Judul Laporan",
+            nilai = judul,
+            onNilaiBerubah = { judul = it }
         )
-        OutlinedTextField(
-            value = lokasi,
-            onValueChange = { lokasi = it },
-            label = { Text("Lokasi") },
-            modifier = Modifier.fillMaxWidth()
+        KolomTeks(
+            label = "Lokasi",
+            nilai = lokasi,
+            onNilaiBerubah = { lokasi = it }
         )
-        OutlinedTextField(
-            value = deskripsi,
-            onValueChange = setDeskripsi,
-            label = { Text("Deskripsi") },
-            modifier = Modifier.fillMaxWidth()
+        KolomTeks(
+            label = "Deskripsi",
+            nilai = deskripsi,
+            onNilaiBerubah = { deskripsi = it }
         )
     }
 }
