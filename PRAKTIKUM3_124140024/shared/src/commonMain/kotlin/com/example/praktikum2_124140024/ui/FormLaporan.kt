@@ -8,12 +8,63 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
+
+@Composable
+fun FormLaporanScreen(
+    viewModel: FormLaporanViewModel = viewModel { FormLaporanViewModel() }
+) {
+    val uiState by viewModel.uiState.collectAsState()
+
+    FormLaporan(
+        uiState = uiState,
+        onJudulBerubah = viewModel::ubahJudul,
+        onLokasiBerubah = viewModel::ubahLokasi,
+        onDeskripsiBerubah = viewModel::ubahDeskripsi,
+        onKosongkan = viewModel::kosongkan
+    )
+}
+
+@Composable
+fun FormLaporan(
+    uiState: FormLaporanUiState,
+    onJudulBerubah: (String) -> Unit,
+    onLokasiBerubah: (String) -> Unit,
+    onDeskripsiBerubah: (String) -> Unit,
+    onKosongkan: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Column(
+        modifier = modifier.padding(16.dp),
+        verticalArrangement = Arrangement.spacedBy(12.dp)
+    ) {
+        KolomTeks(
+            label = "Judul Laporan",
+            nilai = uiState.judul,
+            onNilaiBerubah = onJudulBerubah
+        )
+        KolomTeks(
+            label = "Lokasi",
+            nilai = uiState.lokasi,
+            onNilaiBerubah = onLokasiBerubah
+        )
+        KolomTeks(
+            label = "Deskripsi",
+            nilai = uiState.deskripsi,
+            onNilaiBerubah = onDeskripsiBerubah
+        )
+        Button(
+            onClick = onKosongkan,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text("Kosongkan")
+        }
+    }
+}
 
 @Composable
 fun KolomTeks(
@@ -28,42 +79,4 @@ fun KolomTeks(
         label = { Text(label) },
         modifier = modifier.fillMaxWidth()
     )
-}
-
-@Composable
-fun FormLaporan() {
-    var judul by rememberSaveable { mutableStateOf("") }
-    var lokasi by rememberSaveable { mutableStateOf("") }
-    var deskripsi by rememberSaveable { mutableStateOf("") }
-
-    Column(
-        modifier = Modifier.padding(16.dp),
-        verticalArrangement = Arrangement.spacedBy(12.dp)
-    ) {
-        KolomTeks(
-            label = "Judul Laporan",
-            nilai = judul,
-            onNilaiBerubah = { judul = it }
-        )
-        KolomTeks(
-            label = "Lokasi",
-            nilai = lokasi,
-            onNilaiBerubah = { lokasi = it }
-        )
-        KolomTeks(
-            label = "Deskripsi",
-            nilai = deskripsi,
-            onNilaiBerubah = { deskripsi = it }
-        )
-        Button(
-            onClick = {
-                judul = ""
-                lokasi = ""
-                deskripsi = ""
-            },
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Text("Kosongkan")
-        }
-    }
 }
