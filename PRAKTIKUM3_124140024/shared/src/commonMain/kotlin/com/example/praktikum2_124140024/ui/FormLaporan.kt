@@ -10,7 +10,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -23,14 +22,9 @@ fun KolomTeks(
     onNilaiBerubah: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    var teks by remember { mutableStateOf(nilai) }
-
     OutlinedTextField(
-        value = teks,
-        onValueChange = {
-            teks = it
-            onNilaiBerubah(it)
-        },
+        value = nilai,
+        onValueChange = onNilaiBerubah,
         label = { Text(label) },
         modifier = modifier.fillMaxWidth()
     )
@@ -71,6 +65,5 @@ fun FormLaporan() {
         ) {
             Text("Kosongkan")
         }
-        Text("State induk -> Judul: '$judul'")
     }
 }
