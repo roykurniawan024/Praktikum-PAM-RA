@@ -2,9 +2,11 @@ package com.example.praktikum2_124140024.ui
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -25,7 +27,8 @@ fun FormLaporanScreen(
         onJudulBerubah = viewModel::ubahJudul,
         onLokasiBerubah = viewModel::ubahLokasi,
         onDeskripsiBerubah = viewModel::ubahDeskripsi,
-        onKosongkan = viewModel::kosongkan
+        onKosongkan = viewModel::kosongkan,
+        onKirim = {}
     )
 }
 
@@ -36,6 +39,7 @@ fun FormLaporan(
     onLokasiBerubah: (String) -> Unit,
     onDeskripsiBerubah: (String) -> Unit,
     onKosongkan: () -> Unit,
+    onKirim: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -45,7 +49,8 @@ fun FormLaporan(
         KolomTeks(
             label = "Judul Laporan",
             nilai = uiState.judul,
-            onNilaiBerubah = onJudulBerubah
+            onNilaiBerubah = onJudulBerubah,
+            pesanGalat = uiState.pesanGalat
         )
         KolomTeks(
             label = "Lokasi",
@@ -57,11 +62,23 @@ fun FormLaporan(
             nilai = uiState.deskripsi,
             onNilaiBerubah = onDeskripsiBerubah
         )
-        Button(
-            onClick = onKosongkan,
-            modifier = Modifier.fillMaxWidth()
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            Text("Kosongkan")
+            OutlinedButton(
+                onClick = onKosongkan,
+                modifier = Modifier.weight(1f)
+            ) {
+                Text("Kosongkan")
+            }
+            Button(
+                onClick = onKirim,
+                enabled = uiState.bisaKirim,
+                modifier = Modifier.weight(1f)
+            ) {
+                Text("Kirim")
+            }
         }
     }
 }
@@ -71,12 +88,15 @@ fun KolomTeks(
     label: String,
     nilai: String,
     onNilaiBerubah: (String) -> Unit,
+    pesanGalat: String? = null,
     modifier: Modifier = Modifier
 ) {
     OutlinedTextField(
         value = nilai,
         onValueChange = onNilaiBerubah,
         label = { Text(label) },
+        isError = pesanGalat != null,
+        supportingText = pesanGalat?.let { { Text(it) } },
         modifier = modifier.fillMaxWidth()
     )
 }
