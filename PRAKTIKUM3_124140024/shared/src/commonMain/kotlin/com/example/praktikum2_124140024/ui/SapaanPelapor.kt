@@ -26,3 +26,8 @@ fun SapaanPelapor(nama: String, jumlahLaporan: Int = 0) {
         )
     }
 }
+
+@Composable
+fun tampilkanSapaan() {
+    SapaanPelapor(nama = "Roy", jumlahLaporan = 3)
+}
