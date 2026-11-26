@@ -1,6 +1,7 @@
 package com.example.praktikum2_124140024.ui
 
 import androidx.lifecycle.ViewModel
+import com.example.praktikum2_124140024.data.PenyimpananLaporan
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -24,5 +25,18 @@ class FormLaporanViewModel : ViewModel() {
 
     fun kosongkan() {
         _uiState.value = FormLaporanUiState()
+    }
+
+    fun kirim(): Boolean {
+        val state = _uiState.value
+        if (!state.bisaKirim) return false
+
+        PenyimpananLaporan.tambah(
+            judul = state.judul.trim(),
+            lokasi = state.lokasi.trim(),
+            deskripsi = state.deskripsi.trim()
+        )
+        kosongkan()
+        return true
     }
 }

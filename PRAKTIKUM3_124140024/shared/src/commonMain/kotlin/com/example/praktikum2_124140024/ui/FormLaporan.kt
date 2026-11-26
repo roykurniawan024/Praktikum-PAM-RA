@@ -18,6 +18,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 
 @Composable
 fun FormLaporanScreen(
+    onSelesai: () -> Unit = {},
     viewModel: FormLaporanViewModel = viewModel { FormLaporanViewModel() }
 ) {
     val uiState by viewModel.uiState.collectAsState()
@@ -28,7 +29,11 @@ fun FormLaporanScreen(
         onLokasiBerubah = viewModel::ubahLokasi,
         onDeskripsiBerubah = viewModel::ubahDeskripsi,
         onKosongkan = viewModel::kosongkan,
-        onKirim = {}
+        onKirim = {
+            if (viewModel.kirim()) {
+                onSelesai()
+            }
+        }
     )
 }
 
