@@ -1,5 +1,6 @@
 package com.example.praktikum2_124140024.ui
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -15,13 +16,30 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun FormLaporan() {
-    var judul by rememberSaveable { mutableStateOf("") }
+    val judul = rememberSaveable { mutableStateOf("") }
+    var lokasi by rememberSaveable { mutableStateOf("") }
+    val (deskripsi, setDeskripsi) = rememberSaveable { mutableStateOf("") }
 
-    Column(modifier = Modifier.padding(16.dp)) {
+    Column(
+        modifier = Modifier.padding(16.dp),
+        verticalArrangement = Arrangement.spacedBy(12.dp)
+    ) {
         OutlinedTextField(
-            value = judul,
-            onValueChange = { judul = it },
+            value = judul.value,
+            onValueChange = { judul.value = it },
             label = { Text("Judul Laporan") },
+            modifier = Modifier.fillMaxWidth()
+        )
+        OutlinedTextField(
+            value = lokasi,
+            onValueChange = { lokasi = it },
+            label = { Text("Lokasi") },
+            modifier = Modifier.fillMaxWidth()
+        )
+        OutlinedTextField(
+            value = deskripsi,
+            onValueChange = setDeskripsi,
+            label = { Text("Deskripsi") },
             modifier = Modifier.fillMaxWidth()
         )
     }
