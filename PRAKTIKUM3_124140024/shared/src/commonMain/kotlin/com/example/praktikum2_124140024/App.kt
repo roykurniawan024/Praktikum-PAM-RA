@@ -1,5 +1,6 @@
 package com.example.praktikum2_124140024
 
+import androidx.navigation.NavHostController
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -46,6 +47,16 @@ private val daftarTab = listOf(
     TabBawah("Profil", RuteProfil, Icons.Default.Person)
 )
 
+private fun NavHostController.pindahTab(tujuan: Any) {
+    navigate(tujuan) {
+        popUpTo(RuteDaftar) {
+            saveState = true
+        }
+        launchSingleTop = true
+        restoreState = true
+    }
+}
+
 @Composable
 @Preview
 fun App() {
@@ -68,7 +79,7 @@ fun App() {
 
                             NavigationBarItem(
                                 selected = terpilih,
-                                onClick = { navController.navigate(tab.rute) },
+                                onClick = { navController.pindahTab(tab.rute) },
                                 icon = { Icon(tab.ikon, contentDescription = tab.label) },
                                 label = { Text(tab.label) }
                             )
