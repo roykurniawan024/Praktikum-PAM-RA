@@ -1,6 +1,5 @@
 package com.example.praktikum2_124140024
 
-import androidx.navigation.NavHostController
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -9,7 +8,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.filled.BarChart
 import androidx.compose.material.icons.filled.Person
-import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
@@ -25,6 +23,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.NavDestination.Companion.hierarchy
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -34,6 +33,7 @@ import com.example.praktikum2_124140024.data.PenyimpananLaporan
 import com.example.praktikum2_124140024.praktikum4.ProfileScreen
 import com.example.praktikum2_124140024.ui.DaftarLaporanScreen
 import com.example.praktikum2_124140024.ui.FormLaporanScreen
+import com.example.praktikum2_124140024.ui.LayarDetail
 
 private data class TabBawah(
     val label: String,
@@ -104,30 +104,10 @@ fun App() {
 
                 composable<RuteDetail> { entry ->
                     val rute = entry.toRoute<RuteDetail>()
-                    val daftar by PenyimpananLaporan.daftar.collectAsState()
-                    val laporan = daftar.find { it.id == rute.id }
-
-                    Column(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(16.dp),
-                        verticalArrangement = Arrangement.spacedBy(12.dp)
-                    ) {
-                        Text(
-                            text = "Detail Laporan #${rute.id}",
-                            style = MaterialTheme.typography.headlineSmall
-                        )
-                        if (laporan != null) {
-                            Text(laporan.judul, style = MaterialTheme.typography.titleMedium)
-                            Text("Lokasi: ${laporan.lokasi}")
-                            Text("Deskripsi: ${laporan.deskripsi}")
-                        } else {
-                            Text("Laporan tidak ditemukan.")
-                        }
-                        Button(onClick = { navController.popBackStack() }) {
-                            Text("Kembali")
-                        }
-                    }
+                    LayarDetail(
+                        idLaporan = rute.id,
+                        kembali = { navController.popBackStack() }
+                    )
                 }
 
                 composable<RuteForm> {
