@@ -21,6 +21,7 @@ import com.example.praktikum2_124140024.data.PenyimpananLaporan
 @Composable
 fun DaftarLaporanScreen(
     onTambahLaporan: () -> Unit,
+    onPilihLaporan: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
     val daftarLaporan by PenyimpananLaporan.daftar.collectAsState()
@@ -45,13 +46,16 @@ fun DaftarLaporanScreen(
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 items(daftarLaporan, key = { it.id }) { laporan ->
-                    Card(modifier = Modifier.fillMaxWidth()) {
+                    Card(
+                        onClick = { onPilihLaporan(laporan.id) },
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
                         Column(
                             modifier = Modifier.padding(12.dp),
                             verticalArrangement = Arrangement.spacedBy(4.dp)
                         ) {
                             Text(
-                                text = laporan.judul,
+                                text = "#${laporan.id} - ${laporan.judul}",
                                 style = MaterialTheme.typography.titleMedium
                             )
                             if (laporan.lokasi.isNotBlank()) {

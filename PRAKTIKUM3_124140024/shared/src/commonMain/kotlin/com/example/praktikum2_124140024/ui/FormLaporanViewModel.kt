@@ -27,16 +27,19 @@ class FormLaporanViewModel : ViewModel() {
         _uiState.value = FormLaporanUiState()
     }
 
-    fun kirim(): Boolean {
+    fun kirim() {
         val state = _uiState.value
-        if (!state.bisaKirim) return false
+        if (!state.bisaKirim) return
 
         PenyimpananLaporan.tambah(
             judul = state.judul.trim(),
             lokasi = state.lokasi.trim(),
             deskripsi = state.deskripsi.trim()
         )
-        kosongkan()
-        return true
+        _uiState.value = FormLaporanUiState(tersimpan = true)
+    }
+
+    fun resetTersimpan() {
+        _uiState.update { it.copy(tersimpan = false) }
     }
 }

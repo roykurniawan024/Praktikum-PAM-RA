@@ -15,13 +15,21 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.compose.runtime.LaunchedEffect
 
 @Composable
 fun FormLaporanScreen(
-    onSelesai: () -> Unit = {},
+    selesai: () -> Unit = {},
     viewModel: FormLaporanViewModel = viewModel { FormLaporanViewModel() }
 ) {
     val uiState by viewModel.uiState.collectAsState()
+
+    LaunchedEffect(uiState.tersimpan) {
+        if (uiState.tersimpan) {
+            selesai()
+            viewModel.resetTersimpan()
+        }
+    }
 
     FormLaporan(
         uiState = uiState,
@@ -29,11 +37,7 @@ fun FormLaporanScreen(
         onLokasiBerubah = viewModel::ubahLokasi,
         onDeskripsiBerubah = viewModel::ubahDeskripsi,
         onKosongkan = viewModel::kosongkan,
-        onKirim = {
-            if (viewModel.kirim()) {
-                onSelesai()
-            }
-        }
+        onKirim = viewModel::kirim
     )
 }
 
