@@ -39,6 +39,12 @@ fun LayarDetail(
 
         is DetailUiState.Ada -> {
             val laporan = state.laporan
+            val statusBerikutnya = when (laporan.status) {
+                "Menunggu" -> "Diproses"
+                "Diproses" -> "Selesai"
+                else -> "Menunggu"
+            }
+
             Column(
                 modifier = Modifier
                     .fillMaxSize()
@@ -52,6 +58,10 @@ fun LayarDetail(
                 Text(laporan.judul, style = MaterialTheme.typography.titleMedium)
                 Text("Lokasi: ${laporan.lokasi}")
                 Text("Deskripsi: ${laporan.deskripsi}")
+                Text("Status: ${laporan.status}")
+                Button(onClick = { viewModel.ubahStatus(statusBerikutnya) }) {
+                    Text("Ubah Status ke $statusBerikutnya")
+                }
                 Button(onClick = kembali) {
                     Text("Kembali")
                 }

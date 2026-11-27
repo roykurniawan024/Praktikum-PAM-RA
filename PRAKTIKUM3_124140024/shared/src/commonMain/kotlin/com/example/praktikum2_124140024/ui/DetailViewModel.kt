@@ -26,4 +26,8 @@ class DetailViewModel(
             started = SharingStarted.WhileSubscribed(5_000),
             initialValue = DetailUiState.Memuat
         )
+
+    fun ubahStatus(statusBaru: String) {
+        PenyimpananLaporan.ubahStatus(idLaporan, statusBaru)
+    }
 }

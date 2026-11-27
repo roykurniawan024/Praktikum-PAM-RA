@@ -9,7 +9,8 @@ data class Laporan(
     val id: Int,
     val judul: String,
     val lokasi: String,
-    val deskripsi: String
+    val deskripsi: String,
+    val status: String = "Menunggu"
 )
 
 object PenyimpananLaporan {
@@ -35,5 +36,13 @@ object PenyimpananLaporan {
             deskripsi = deskripsi
         )
         _daftar.update { it + laporanBaru }
+    }
+
+    fun ubahStatus(id: Int, statusBaru: String) {
+        _daftar.update { daftarLama ->
+            daftarLama.map { laporan ->
+                if (laporan.id == id) laporan.copy(status = statusBaru) else laporan
+            }
+        }
     }
 }
